@@ -5,13 +5,14 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const koacors = require('koa-cors');
 
 const index = require('./routes/index')
 const users = require('./routes/users')
 
 // error handler
 onerror(app)
-
+app.use(koacors());
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
