@@ -1,7 +1,20 @@
 // const Mock = require("mockjs")
 // const Random = Mock.Random;
 const Mock = require("mockjs")
+const Random = Mock.Random;
 
+Random.extend({
+    // 分类
+    categorys: ["PP", "PE", "PVC", "ABS", "PS", "AS", "PA", "PC", "茂金属", "EAA", "塑料制品"],
+    category: function(item){
+        return this.pick(this.categorys);
+    },
+    // 厂家
+    companys: Random.pick(['阿里巴巴', '智者天下', '百度网讯', '诺亚方舟', '大庆石化']),
+    company: function(item){
+        return Random.pick(this.companys);
+    }
+})
 /* 模拟测试数据 */
 function mockUserInfo(){
     const data = Mock.mock({
@@ -21,15 +34,15 @@ function generatorData() {
     for (var i = 0; i < 10; i++) {
         var obj = {
             "productId": i,
-            "type": "LLDPE",
+            "type": Random.category(),
             "marknum": "18D",
-            "company": "大庆石化",
-            "num": Math.random() > 0.5 ? "有货" : "无货",
-            "address": "广州",
-            "sendway": "配送",
-            "updatetime": Math.floor(Math.random() * 60),
-            "price": 10000 + Math.ceil(Math.random() * 10000),
-            "updown": Math.random() > 0.5 ? "↑50" : "↓50"
+            "company": Random.company(),
+            "num": Random.pick(['有货', '无货']),
+            "address": Random.city(),
+            "sendway": Random.pick('自提', '配送'),
+            "updatetime": Random.natural(1, 60),
+            "price": Random.natural(10000, 20000),
+            "updown": Random.pick(['↑', '↓']) + Random.natural(50,350)
         };
         temp.push(obj);
     }
